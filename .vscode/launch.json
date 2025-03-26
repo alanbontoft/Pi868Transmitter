@@ -1,0 +1,48 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Remote Launch - Windows",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "RaspiDeploy_Win",
+            "program": "~/.dotnet/dotnet",
+            "args": ["/home/pi/target/Pi868Transmitter/Pi868Transmitter.dll"],
+            "cwd": "~/target/Pi868Transmitter",
+            "stopAtEntry": true,
+            "console": "internalConsole",
+            "pipeTransport": {
+                "pipeCwd": "${workspaceFolder}",
+                "pipeProgram": "c:\\program files\\putty\\PLINK.EXE",
+                "pipeArgs": [
+                    "-pw",
+                    "raspberry",
+                    "pi@rpi3b"
+                ],
+                "debuggerPath": "/home/pi/vsdbg/vsdbg"
+            }
+        },
+        {	
+            "name": ".NET Remote Launch - Linux",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "RaspiDeploy_Linux",
+            "program": "~/.dotnet/dotnet",
+            "args": [ "/home/pi/target/Pi868Transmitter/Pi868Transmitter.dll", "6", "65535" ],
+            "cwd": "~/target/Pi868Transmitter",
+            "stopAtEntry": true,
+            "console": "internalConsole",
+            "pipeTransport": {
+                "pipeCwd": "${workspaceRoot}",
+                "pipeProgram": "/usr/bin/ssh",
+                "pipeArgs": [
+                    "-T", "pi@rpi3b"
+                ],
+                "debuggerPath": "~/vsdbg/vsdbg"
+            }   
+        }
+    ]
+}

@@ -1,0 +1,76 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Pi868Transmitter.csproj"
+            ],
+            "problemMatcher": "$tsc"
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/Pi868Transmitter.csproj"
+            ],
+            "problemMatcher": "$tsc"
+        },
+        {
+            "label": "watch",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "${workspaceFolder}/Pi868Transmitter.csproj"
+            ],
+            "problemMatcher": "$tsc"
+        },
+        {
+            "label": "RaspiPublish_Win",
+            "type": "shell",
+            "windows": {
+                "command": "cmd",
+                "args": [
+                    "/c",
+                    "\"dotnet publish -r linux-arm64 -c Debug --no-self-contained\""
+                ],
+                "problemMatcher": []
+            }
+        },
+        {
+            "label": "RaspiDeploy_Win",
+            "type": "shell",
+            "dependsOn": "RaspiPublish_Win",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new",
+                "close": true
+            },
+            "windows": {
+                "command": "pscp -pwfile c:\\temp\\pwd.txt bin\\Debug\\net8.0\\linux-arm64\\publish\\* pi@rpi3:/home/pi/target/Pi868Transmitter/"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "RaspiPublish_Linux",
+            "command": "dotnet",
+            "type": "process",
+            "args": [ "publish",
+                     "-p:Configuration=Debug",
+                     "--no-self-contained" ]
+        },
+        {
+            "label": "RaspiDeploy_Linux",
+            "command": "scp bin/Debug/net8.0/linux-arm64/publish/* pi@rpi3b:/home/pi/target/Pi868Transmitter/",
+            "type": "shell",
+            "dependsOn": "RaspiPublish_Linux",
+        }
+    ]
+}
